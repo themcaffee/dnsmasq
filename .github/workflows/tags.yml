@@ -3,6 +3,9 @@ name: Checks for new tags and publishes them
 on:
   schedule:
     - cron: '0 0 * * *'
+  push:
+    branches:
+      - main
 
 jobs:
   check-for-new-tags:
