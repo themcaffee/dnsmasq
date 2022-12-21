@@ -1,19 +1,18 @@
 #!/bin/sh
 
-
 # Configure git
 git config --global user.name "${GITHUB_ACTOR}"
 git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 # Get the tags that exist in this repo
 git fetch --all --tags
-git tag --list 'v*' | sort -V > ../latest-tag-docker
+git tag --list 'v*' | sort -V > latest-tag-docker
 # Get dnsmasq tags
-cd ../
 git clone git://thekelleys.org.uk/dnsmasq.git 
 cd dnsmasq
 git fetch --all --tags
-git tag --list 'v*' | sort -V | tail -n 4 > ../latest-tag
+git tag --list 'v*' | sort -V | tail -n 3 > ../latest-tag
 cd ../
+rm -rf dnsmasq
 # Iterate through the tags and check if they exist in the docker repo
 while read version; do
     echo $version
@@ -21,9 +20,7 @@ while read version; do
         echo "No new tag"
     else
         echo "New tag found"
-        cd dnsmasq-docker
         git tag $version
         git push origin $version
-        cd ../
     fi
-done </./latest-tag
+done < latest-tag
