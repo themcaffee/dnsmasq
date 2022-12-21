@@ -13,4 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Publish new tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: ./check-tags.sh
