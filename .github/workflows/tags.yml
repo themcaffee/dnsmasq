@@ -1,0 +1,17 @@
+name: Checks for new tags and publishes them
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  check-for-new-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Move source
+        run: |
+          mkdir -p /dnsmasq-docker
+          mv dnsmasq/* /dnsmasq-docker
+      - name: Publish new tags
+        run: cd /dnsmasq-docker && ./check-tags.sh
