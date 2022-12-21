@@ -14,7 +14,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Move source
         run: |
-          mkdir -p /dnsmasq-docker
-          mv dnsmasq/* /dnsmasq-docker
+          pwd
+          mkdir -p dnsmasq-docker
+          mv dnsmasq/* dnsmasq-docker
       - name: Publish new tags
-        run: cd /dnsmasq-docker && ./check-tags.sh
+        run: cd dnsmasq-docker && ./check-tags.sh
