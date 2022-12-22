@@ -37,7 +37,7 @@ jobs:
         with:
           context: .
           build-args: |
-            VERSION=${{ steps.meta.outputs.tags }}
+            VERSION=${{ github.ref_name }}
           platforms: ${{ matrix.platform }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
@@ -60,7 +60,7 @@ jobs:
         with:
           context: .
           build-args: |
-            VERSION=${{ steps.meta.outputs.tags }}
+            VERSION=${{ github.ref_name }}
           platforms: ${{ matrix.platform }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
