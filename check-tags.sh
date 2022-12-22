@@ -5,7 +5,7 @@ git config --global user.name "${GITHUB_ACTOR}"
 git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 # Get the tags that exist in this repo
 git fetch --all --tags
-git tag --list 'v*' | sort -V > latest-tag-docker
+git tag --list 'v*' | grep -v "test" | grep -v "rc" | sort -V > latest-tag-docker
 # Get dnsmasq tags
 git clone git://thekelleys.org.uk/dnsmasq.git 
 cd dnsmasq
