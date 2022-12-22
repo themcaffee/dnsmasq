@@ -16,7 +16,7 @@ rm -rf dnsmasq
 # Iterate through the tags and check if they exist in the docker repo
 while read version; do
     echo $version
-    if grep -q -F -f latest-tag-docker $version; then
+    if grep -q $version "latest-tag-docker"; then
         echo "No new tag"
     else
         echo "New tag found"
