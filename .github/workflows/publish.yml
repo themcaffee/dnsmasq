@@ -10,9 +10,37 @@ env:
   PLATFORMS: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
 
 jobs:
-  publish-github:
-    name: Build and publish docker image to github container registry
+  build:
+    name: Build docker image
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Extract metadata (tags, labels) for DockerHub
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.IMAGE_NAME }}
+      - name: Build Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          build-args: |
+            VERSION=${{ github.ref_name }}
+          platforms: ${{ env.PLATFORMS }}
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-to: type=gha
+          cache-from: type=gha
+  publish-github:
+    name: Publish docker image to github container registry
+    runs-on: ubuntu-latest
+    depends-on: build
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -41,9 +69,11 @@ jobs:
           push: true
           tags: ${{ steps.metaghcr.outputs.tags }}
           labels: ${{ steps.metaghcr.outputs.labels }}
+          cache-from: type=gha
   publish-dockerhub:
     name: Build and publish docker image to docker hub
     runs-on: ubuntu-latest
+    depends-on: build
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -71,3 +101,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
