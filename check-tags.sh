@@ -10,7 +10,7 @@ git tag --list 'v*' | sort -V > latest-tag-docker
 git clone git://thekelleys.org.uk/dnsmasq.git 
 cd dnsmasq
 git fetch --all --tags
-git tag --list 'v*' | sort -V | tail -n 1 > ../latest-tag
+git tag --list 'v*' | sort -V | tail -n 20 > ../latest-tag
 cd ../
 rm -rf dnsmasq
 # Iterate through the tags and check if they exist in the docker repo
