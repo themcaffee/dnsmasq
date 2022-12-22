@@ -40,7 +40,7 @@ jobs:
   publish-github:
     name: Publish docker image to github container registry
     runs-on: ubuntu-latest
-    depends-on: build
+    needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -73,7 +73,7 @@ jobs:
   publish-dockerhub:
     name: Build and publish docker image to docker hub
     runs-on: ubuntu-latest
-    depends-on: build
+    needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v3
