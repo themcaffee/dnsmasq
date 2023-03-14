@@ -9,4 +9,14 @@ linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,lin
 
 ## Usage
 
-TODO
+To use this image install it from the command line and use directly:
+
+```
+docker pull ghcr.io/themcaffee/dnsmasq:v2.89
+```
+
+or use as a base for a Dockerfile:
+
+```
+FROM ghcr.io/themcaffee/dnsmasq:v2.89
+```
